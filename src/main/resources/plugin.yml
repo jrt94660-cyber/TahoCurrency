@@ -5,6 +5,9 @@ api-version: '26.1'
 author: Taho
 description: Earn Taho Coins by killing mobs and spend them in a custom shop.
 commands:
+  tahoshop:
+    description: Open the Taho Coin Shop GUI.
+    usage: /tahoshop
   currency:
     description: View your Taho Coins and open the currency shop.
     aliases: [coins, tahocoins]
