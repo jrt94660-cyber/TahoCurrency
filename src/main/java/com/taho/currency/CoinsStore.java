@@ -5,6 +5,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 final class CoinsStore {
     private final File file;
@@ -14,6 +16,20 @@ final class CoinsStore {
         this.file = file;
         if (file.getParentFile() != null) file.getParentFile().mkdirs();
         this.data = YamlConfiguration.loadConfiguration(file);
+    }
+
+    synchronized Map<UUID, Long> getBalances() {
+        Map<UUID, Long> balances = new HashMap<>();
+        if (data.isConfigurationSection("balances")) {
+            for (String key : data.getConfigurationSection("balances").getKeys(false)) {
+                try {
+                    UUID uuid = UUID.fromString(key);
+                    long amount = Math.max(0, data.getLong("balances." + key, 0));
+                    if (amount > 0) balances.put(uuid, amount);
+                } catch (IllegalArgumentException ignored) { }
+            }
+        }
+        return balances;
     }
 
     synchronized long get(UUID uuid) {
