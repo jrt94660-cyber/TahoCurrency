@@ -4,6 +4,7 @@ main: com.taho.currency.TahoCurrency
 api-version: '26.1'
 author: Taho
 description: Earn Taho Coins by killing mobs and spend them in a custom shop.
+softdepend: [PlaceholderAPI]
 commands:
   taho:
     description: Check your Taho Coins balance.
