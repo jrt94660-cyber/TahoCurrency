@@ -22,7 +22,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -30,6 +32,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class TahoCurrency extends JavaPlugin implements Listener {
     private CoinsStore store;
     private NamespacedKey shopItemKey;
+    private static final String LEADERBOARD_TITLE = "§8Taho Coin Leaderboard";
 
     @Override public void onEnable() {
         saveDefaultConfig();
@@ -45,6 +48,22 @@ public final class TahoCurrency extends JavaPlugin implements Listener {
 
     @Override public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String base = color(getConfig().getString("messages.prefix", "&8[&dTahoCurrency&8] "));
+        if (command.getName().equalsIgnoreCase("taho")) {
+            if (!(sender instanceof Player player)) {
+                sender.sendMessage(base + msg("player-only")); return true;
+            }
+            player.sendMessage(base + msg("balance")
+                .replace("%balance%", format(store.get(player.getUniqueId())))
+                .replace("%currency%", currencyName()));
+            return true;
+        }
+        if (command.getName().equalsIgnoreCase("tahobaltop")) {
+            if (!(sender instanceof Player player)) {
+                sender.sendMessage(base + msg("player-only")); return true;
+            }
+            openLeaderboard(player);
+            return true;
+        }
         if (command.getName().equalsIgnoreCase("tahoshop")) {
             if (!(sender instanceof Player player)) {
                 sender.sendMessage(base + msg("player-only")); return true;
@@ -110,9 +129,46 @@ public final class TahoCurrency extends JavaPlugin implements Listener {
         player.openInventory(inv);
     }
 
+    private void openLeaderboard(Player player) {
+        Inventory inv = Bukkit.createInventory(null, 54, LEADERBOARD_TITLE);
+        ItemStack filler = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemMeta fillerMeta = filler.getItemMeta();
+        fillerMeta.setDisplayName(" ");
+        filler.setItemMeta(fillerMeta);
+        for (int i = 0; i < inv.getSize(); i++) inv.setItem(i, filler);
+
+        List<Map.Entry<UUID, Long>> leaders = store.getBalances().entrySet().stream()
+            .sorted(Map.Entry.<UUID, Long>comparingByValue(Comparator.reverseOrder()))
+            .limit(10)
+            .toList();
+        int[] slots = {10, 11, 12, 13, 14, 15, 16, 19, 20, 21};
+        for (int i = 0; i < leaders.size(); i++) {
+            Map.Entry<UUID, Long> entry = leaders.get(i);
+            String name = Bukkit.getOfflinePlayer(entry.getKey()).getName();
+            if (name == null || name.isBlank()) name = "Unknown Player";
+            ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+            ItemMeta meta = head.getItemMeta();
+            meta.setDisplayName(color("&e#" + (i + 1) + " &f" + name));
+            meta.setLore(List.of(color("&7Balance: &d" + format(entry.getValue()) + " " + currencySymbol())));
+            head.setItemMeta(meta);
+            inv.setItem(slots[i], head);
+        }
+        ItemStack info = new ItemStack(Material.GOLD_INGOT);
+        ItemMeta infoMeta = info.getItemMeta();
+        infoMeta.setDisplayName(color("&6Your Balance"));
+        infoMeta.setLore(List.of(color("&d" + format(store.get(player.getUniqueId())) + " " + currencySymbol())));
+        info.setItemMeta(infoMeta);
+        inv.setItem(49, info);
+        player.openInventory(inv);
+    }
+
     @EventHandler public void onShopClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
         String title = color(getConfig().getString("shop.title", "&8Taho Coin Shop"));
+        if (event.getView().getTitle().equals(LEADERBOARD_TITLE)) {
+            event.setCancelled(true);
+            return;
+        }
         if (!event.getView().getTitle().equals(title)) return;
         event.setCancelled(true);
         if (event.getClickedInventory() == null || event.getClickedInventory() != event.getView().getTopInventory()) return;
