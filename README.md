@@ -5,7 +5,7 @@ A standalone Paper plugin with a separate currency balance, mob-kill rewards, an
 ## Features
 - Killing eligible mobs rewards a random **200–1,000 Taho Coins** per kill.
 - Persistent balances saved to `plugins/TahoCurrency/balances.yml`.
-- `/currency`, `/currency balance`, `/currency shop` (aliases: `/coins`, `/tahocoins`).
+- `/tahoshop` opens the shop GUI. `/currency` and `/currency balance` show your balance; `/currency shop` also opens the shop (aliases: `/coins`, `/tahocoins`).
 - Shop: Elytra with **Unbreaking III + Mending** for **100,000**; Dragon Head for **50,000**.
 - Configurable rewards, excluded mobs, prices, shop slots, item names/lore, and messages.
 - `/currency reload` for admins with `tahocurrency.admin`.
