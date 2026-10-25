@@ -8,6 +8,7 @@ A standalone Paper plugin with a separate currency balance, mob-kill rewards, an
 - `/taho` checks your Taho Coins balance; `/taho reload` reloads the config for admins with `tahocurrency.admin`.
 - `/tahoshop` opens the shop GUI.
 - `/tahobaltop` opens a leaderboard GUI showing the top 10 balances.
+- PlaceholderAPI support: `%tahocurrency_short%` displays the player's balance in compact decimal notation, such as `1.5K`, `2.35M`, or `1.2B` (requires PlaceholderAPI installed).
 - `/currency` remains available for balance/shop and `/currency reload` for admins.
 - Shop: Elytra with **Unbreaking III + Mending** for **100,000**; Dragon Head for **50,000**.
 - Configurable rewards, excluded mobs, prices, shop slots, item names/lore, and messages.
@@ -23,4 +24,4 @@ mvn -U clean package
 Put `target/TahoCurrency.jar` into your server's `plugins` directory and restart. Edit `plugins/TahoCurrency/config.yml` to configure it.
 
 ## Notes
-This is its own currency and does not use Vault or change your server's existing economy. Player kills do not award coins. Rewards are given to the player who gets the mob kill credit.
+This is its own currency and does not use Vault or change your server's existing economy. PlaceholderAPI is optional; install it alongside TahoCurrency to use `%tahocurrency_short%`. Player kills do not award coins. Rewards are given to the player who gets the mob kill credit.
