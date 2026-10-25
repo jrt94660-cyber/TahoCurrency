@@ -77,6 +77,10 @@ public final class TahoCurrency extends JavaPlugin implements Listener {
             }
             reloadConfig(); sender.sendMessage(base + msg("reloaded")); return true;
         }
+        if (command.getName().equalsIgnoreCase("currency")) {
+            sender.sendMessage(base + color("&7Use &f/taho &7to check your balance, &f/tahoshop &7for the shop, or &f/tahobaltop &7for the leaderboard."));
+            return true;
+        }
         if (!(sender instanceof Player player)) {
             sender.sendMessage(base + msg("player-only")); return true;
         }
