@@ -60,6 +60,12 @@ public final class TahoCurrencyExpansion extends PlaceholderExpansion {
             suffixIndex++;
         } while (value.compareTo(thousand) >= 0 && suffixIndex < suffixes.length - 1);
 
+        value = value.setScale(2, RoundingMode.HALF_UP);
+        if (value.compareTo(thousand) >= 0 && suffixIndex < suffixes.length - 1) {
+            value = value.divide(thousand, 8, RoundingMode.HALF_UP);
+            suffixIndex++;
+        }
+
         DecimalFormat format = new DecimalFormat("0.##",
             DecimalFormatSymbols.getInstance(Locale.US));
         format.setRoundingMode(RoundingMode.HALF_UP);
