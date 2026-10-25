@@ -15,7 +15,7 @@ commands:
     description: Open the Taho Coin Shop GUI.
     usage: /tahoshop
   currency:
-    description: Admin command for reloading TahoCurrency.
+    description: Legacy admin reload command; use /taho reload.
     usage: /currency reload
 permissions:
   tahocurrency.admin:
