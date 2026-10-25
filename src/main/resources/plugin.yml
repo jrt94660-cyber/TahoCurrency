@@ -1,0 +1,15 @@
+name: TahoCurrency
+version: 1.0.0
+main: com.taho.currency.TahoCurrency
+api-version: '26.1'
+author: Taho
+description: Earn Taho Coins by killing mobs and spend them in a custom shop.
+commands:
+  currency:
+    description: View your Taho Coins and open the currency shop.
+    aliases: [coins, tahocoins]
+    usage: /currency <balance|shop|reload>
+permissions:
+  tahocurrency.admin:
+    description: Allows reloading TahoCurrency.
+    default: op
