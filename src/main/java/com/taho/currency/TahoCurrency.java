@@ -39,6 +39,10 @@ public final class TahoCurrency extends JavaPlugin implements Listener {
         store = new CoinsStore(new File(getDataFolder(), "balances.yml"));
         shopItemKey = new NamespacedKey(this, "shop_item");
         Bukkit.getPluginManager().registerEvents(this, this);
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new TahoCurrencyExpansion(this).register();
+            getLogger().info("PlaceholderAPI integration enabled.");
+        }
         getLogger().info("TahoCurrency enabled.");
     }
 
@@ -218,6 +222,10 @@ public final class TahoCurrency extends JavaPlugin implements Listener {
             .replace("%item%", color(getConfig().getString(path + ".name", id)))
             .replace("%price%", format(price)).replace("%currency%", currencyName()));
         openShop(player);
+    }
+
+    public long getBalance(UUID uuid) {
+        return store == null ? 0L : store.get(uuid);
     }
 
     private String currencyName() { return getConfig().getString("currency.name", "Taho Coins"); }
