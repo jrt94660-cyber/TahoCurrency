@@ -1,0 +1,42 @@
+currency:
+  name: "Taho Coins"
+  symbol: "✦"
+  kill-reward:
+    minimum: 200
+    maximum: 1000
+  # Optional blacklist of entity types, uppercase Bukkit names.
+  excluded-mobs:
+    - ARMOR_STAND
+shop:
+  title: "&8Taho Coin Shop"
+  # Slot positions in a 54-slot inventory.
+  items:
+    elytra:
+      slot: 20
+      price: 100000
+      material: ELYTRA
+      name: "&d&lEnchanted Elytra"
+      lore:
+        - "&7Elytra with Unbreaking III and Mending"
+        - ""
+        - "&ePrice: &f100,000 ✦"
+        - "&aClick to purchase"
+    dragon-head:
+      slot: 24
+      price: 50000
+      material: DRAGON_HEAD
+      name: "&5&lDragon Head"
+      lore:
+        - "&7A rare dragon trophy."
+        - ""
+        - "&ePrice: &f50,000 ✦"
+        - "&aClick to purchase"
+messages:
+  prefix: "&8[&dTahoCurrency&8] "
+  balance: "&7Balance: &d%balance% %currency%"
+  earned: "&a+%amount% %currency% &7for killing a mob!"
+  purchased: "&aPurchased &f%item% &afor &d%price% %currency%&a."
+  insufficient: "&cYou need %price% %currency% but only have %balance%."
+  no-permission: "&cYou don't have permission."
+  player-only: "&cOnly players can use this command."
+  reloaded: "&aConfiguration reloaded."
