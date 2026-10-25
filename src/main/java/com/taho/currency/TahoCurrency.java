@@ -45,6 +45,13 @@ public final class TahoCurrency extends JavaPlugin implements Listener {
 
     @Override public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String base = color(getConfig().getString("messages.prefix", "&8[&dTahoCurrency&8] "));
+        if (command.getName().equalsIgnoreCase("tahoshop")) {
+            if (!(sender instanceof Player player)) {
+                sender.sendMessage(base + msg("player-only")); return true;
+            }
+            openShop(player);
+            return true;
+        }
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             if (!sender.hasPermission("tahocurrency.admin")) {
                 sender.sendMessage(base + msg("no-permission")); return true;
